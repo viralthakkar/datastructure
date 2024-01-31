@@ -2,7 +2,7 @@ from typing import Optional, List
 from treenode import TreeNode
 
 
-class PreOrder:
+class PostOrder:
     def __init__(self, tree: Optional[TreeNode]):
         self.tree = tree
         self.traverse = []
@@ -10,25 +10,33 @@ class PreOrder:
     def recursive_lib(self, tree: Optional[TreeNode]):
         if not tree:
             return
-        self.traverse.append(tree.val)
         self.recursive_lib(tree.left)
         self.recursive_lib(tree.right)
+        self.traverse.append(tree.val)
 
     def recursive(self) -> List[int]:
         self.recursive_lib(self.tree)
         return self.traverse
 
     def iterative(self) -> List[int]:
+        node = self.tree
+        visited = set()
         stack = []
-        root = self.tree
-        while stack or root:
-            while root:
-                stack.append(root)
-                self.traverse.append(root.val)
-                root = root.left
 
-            root = stack.pop()
-            root = root.right
+        while stack or node:
+            while node and node not in visited:
+                stack.append(node)
+                node = node.left
+
+            node = stack.pop()
+
+            if node.right and node.right not in visited:
+                stack.append(node)
+                node = node.right
+            else:
+                visited.add(node)
+                self.traverse.append(node.val)
+                node = None
 
         return self.traverse
 
@@ -47,13 +55,13 @@ if __name__ == '__main__':
     t.left.left.left = TreeNode(8)
     t.left.left.right = TreeNode(9)
 
-    p = PreOrder(t)
-    print("Pre Order with Recursion")
+    p = PostOrder(t)
+    print("Post Order with Recursion")
     res = p.recursive()
     print(res)
 
     p.empty_traversal()
 
-    print("Pre Order without Recursion")
+    print("Post Order without Recursion")
     res = p.iterative()
     print(res)

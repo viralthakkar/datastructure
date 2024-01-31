@@ -2,7 +2,7 @@ from typing import Optional, List
 from treenode import TreeNode
 
 
-class PreOrder:
+class InOrder:
     def __init__(self, tree: Optional[TreeNode]):
         self.tree = tree
         self.traverse = []
@@ -10,8 +10,8 @@ class PreOrder:
     def recursive_lib(self, tree: Optional[TreeNode]):
         if not tree:
             return
-        self.traverse.append(tree.val)
         self.recursive_lib(tree.left)
+        self.traverse.append(tree.val)
         self.recursive_lib(tree.right)
 
     def recursive(self) -> List[int]:
@@ -24,10 +24,10 @@ class PreOrder:
         while stack or root:
             while root:
                 stack.append(root)
-                self.traverse.append(root.val)
                 root = root.left
 
             root = stack.pop()
+            self.traverse.append(root.val)
             root = root.right
 
         return self.traverse
@@ -47,13 +47,13 @@ if __name__ == '__main__':
     t.left.left.left = TreeNode(8)
     t.left.left.right = TreeNode(9)
 
-    p = PreOrder(t)
-    print("Pre Order with Recursion")
+    p = InOrder(t)
+    print("In Order with Recursion")
     res = p.recursive()
     print(res)
 
     p.empty_traversal()
 
-    print("Pre Order without Recursion")
+    print("In Order without Recursion")
     res = p.iterative()
     print(res)

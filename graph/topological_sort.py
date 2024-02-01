@@ -72,6 +72,7 @@ if __name__ == '__main__':
     g.add_edge(4, 1)
     g.add_edge(2, 3)
     g.add_edge(3, 1)
+    g.add_edge(1, 3)
 
     print("Following is a Topological Sort of the given graph")
     nodes = g.traverse_in_degree()

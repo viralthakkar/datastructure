@@ -1,6 +1,3 @@
-import sys
-
-
 def max_subarray(nums):
     max_ending_here = 0
     max_so_far = float("-inf")
